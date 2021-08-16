@@ -12,6 +12,16 @@ const { createUser, login } = require("./controllers/users");
 
 const app = express();
 
+const allowedCors = [
+  "https://api.movies.students.nomoredomains.club",
+  "https://movies.students.nomoredomains.club",
+  "https://localhost:3000",
+];
+
+app.use(cors({
+  origin: allowedCors,
+}));
+
 const { PORT = 3000 } = process.env;
 app.use(helmet());
 
