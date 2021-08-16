@@ -2,6 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
+const { celebrate, Joi, errors } = require("celebrate");
+const auth = require("./middlewares/auth");
+const errorsHandler = require("./middlewares/errorsHandler");
+const regExp = require("./regexp/regexp");
+const NotFound = require("./errors/NotFound");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { createUser, login } = require("./controllers/users");
 
 const app = express();
 
@@ -29,6 +36,35 @@ mongoose.connect("mongodb://localhost:27017/bitfilmsdb", {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(requestLogger);
+
+app.post("/signup", celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string().pattern(regExp),
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(8).max(35),
+  }),
+}), createUser);
+app.post("/signin", celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+}), login);
+
+app.use("/", auth, require("./routes/users"));
+app.use("/", auth, require("./routes/movies"));
+
+app.use("*", (req, res, next) => {
+  next(new NotFound("Запрашиваемый ресурс не найден"));
+});
+
+app.use(errorLogger);
+app.use(errors());
+app.use(errorsHandler);
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
