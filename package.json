@@ -1,0 +1,28 @@
+{
+  "name": "movapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Droni90/movies-explorer-api.git"
+  },
+  "author": "Anri Rey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Droni90/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Droni90/movies-explorer-api#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "nodemon": "^2.0.10"
+  }
+}
