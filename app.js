@@ -1,10 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
-require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const { celebrate, Joi, errors } = require("celebrate");
+const limiter = require("./middlewares/limiter");
 const auth = require("./middlewares/auth");
 const errorsHandler = require("./middlewares/errorsHandler");
 const regExp = require("./regexp/regexp");
@@ -12,7 +13,7 @@ const NotFound = require("./errors/NotFound");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { createUser, login } = require("./controllers/users");
 
-const { BASE_URL = "mongodb://localhost:27017/bitfilmsdb" } = process.env;
+const { BASE_URL = "mongodb://localhost:27017/moviesdb" } = process.env;
 const app = express();
 
 const allowedCors = [
@@ -51,6 +52,7 @@ mongoose.connect(BASE_URL, {
 });
 
 app.use(requestLogger);
+app.use(limiter);
 
 app.post("/signup", celebrate({
   body: Joi.object().keys({
