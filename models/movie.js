@@ -15,7 +15,7 @@ const cardSchema = new mongoose.Schema({
     maxlength: 30,
   },
   duration: {
-    type: String,
+    type: Number,
     required: true,
   },
   year: {

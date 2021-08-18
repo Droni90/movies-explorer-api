@@ -37,7 +37,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
-    owner: req.user._id,
+    owner: "asdasrawrawfsdfasfasdasdsd",
     movieId,
   })
     .then((card) => res.send({ data: card }))
