@@ -54,7 +54,7 @@ mongoose.connect(BASE_URL, {
 app.use(requestLogger);
 app.use(limiter);
 
-app.post("/signup", celebrate({
+app.post("/api/signup", celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
@@ -63,7 +63,7 @@ app.post("/signup", celebrate({
     password: Joi.string().required().min(8).max(35),
   }),
 }), createUser);
-app.post("/signin", celebrate({
+app.post("/api/signin", celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
