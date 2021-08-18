@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
+require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const { celebrate, Joi, errors } = require("celebrate");
 const auth = require("./middlewares/auth");
@@ -11,6 +12,7 @@ const NotFound = require("./errors/NotFound");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { createUser, login } = require("./controllers/users");
 
+const { BASE_URL = "mongodb://localhost:27017/bitfilmsdb" } = process.env;
 const app = express();
 
 const allowedCors = [
@@ -41,7 +43,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb://localhost:27017/bitfilmsdb", {
+mongoose.connect(BASE_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -66,8 +68,8 @@ app.post("/signin", celebrate({
   }),
 }), login);
 
-app.use("/", auth, require("./routes/users"));
-app.use("/", auth, require("./routes/movies"));
+app.use("/api/", auth, require("./routes/users"));
+app.use("/api/", auth, require("./routes/movies"));
 
 app.use("*", (req, res, next) => {
   next(new NotFound("Запрашиваемый ресурс не найден"));
