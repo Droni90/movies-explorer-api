@@ -70,8 +70,8 @@ app.post("/api/signin", celebrate({
   }),
 }), login);
 
-app.use("/api/", auth, require("./routes/users"));
-app.use("/api/", auth, require("./routes/movies"));
+app.use("/api", auth, require("./routes/users"));
+app.use("/api", auth, require("./routes/movies"));
 
 app.use("*", (req, res, next) => {
   next(new NotFound("Запрашиваемый ресурс не найден"));
