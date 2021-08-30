@@ -19,7 +19,7 @@ const app = express();
 const allowedCors = [
   "https://api.movies.students.nomoredomains.club",
   "https://movies.students.nomoredomains.club",
-  "https://localhost:3000",
+  "http://localhost:3000",
 ];
 
 app.use(cors({
