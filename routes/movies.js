@@ -10,7 +10,7 @@ router.post("/movies", celebrate({
     director: Joi.string().min(2).max(30),
     duration: Joi.number(),
     year: Joi.string().min(2).max(30),
-    description: Joi.string().min(2).max(280),
+    description: Joi.string().min(2),
     image: Joi.string().required().pattern(regExp),
     trailer: Joi.string().required().pattern(regExp),
     nameRU: Joi.string().min(2).max(30),
